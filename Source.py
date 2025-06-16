@@ -22,12 +22,14 @@ def send_file(host, port, file_path):
         sent = 0
         checksum = 0
         with open(file_path, 'rb') as f:
-            while chunk := f.read(4096):
+            chunk = f.read(4096)
+            while chunk:
                 s.sendall(chunk)
                 checksum = zlib.crc32(chunk, checksum)
                 sent += len(chunk)
                 percent = int((sent / filesize) * 100)
                 print(f"{percent:3d}% ({sent} of {filesize})", end='\r')
+                chunk = f.read(4096)
 
         print("\nFile sent successfully.")
         s.sendall(struct.pack(">I", checksum))

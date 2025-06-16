@@ -48,7 +48,7 @@ def receive_file(port):
                     chunk = conn.recv(min(4096, filesize - received))
                     if not chunk:
                         break
-                    f.write(chounk)
+                    f.write(chunk)
                     checksum = zlib.crc32(chunk, checksum)
                     received += len(chunk)
                     percent = int((received / filesize) * 100)
